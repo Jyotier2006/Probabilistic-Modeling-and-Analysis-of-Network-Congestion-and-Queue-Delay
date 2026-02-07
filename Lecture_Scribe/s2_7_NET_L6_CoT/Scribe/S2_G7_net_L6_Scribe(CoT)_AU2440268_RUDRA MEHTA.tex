@@ -1,0 +1,308 @@
+\documentclass[12pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{enumitem}
+
+\setstretch{1.2}
+
+\begin{document}
+
+\begin{center}
+\textbf{CSE400 – Fundamentals of Probability in Computing}\\
+\textbf{Lecture 6: Discrete Random Variables, Expectation and Problem Solving}\\
+Instructor: Dhaval Patel, PhD\\
+Date: January 22, 2025\\
+\vspace{0.3cm}
+\textit{(This scribe is intended for closed-notes / reading-based exam revision.)}
+\end{center}
+
+\vspace{0.5cm}
+
+\section*{L6\_S2\_A}
+
+\section{Random Variables}
+
+\subsection{Motivation and Concept}
+
+Let $\Omega$ denote the sample space.
+
+\textbf{Definition:}  
+A random variable $X$ on a sample space $\Omega$ is a function
+\[
+X : \Omega \rightarrow \mathbb{R}
+\]
+that assigns to each sample point $\omega \in \Omega$ a real number $X(\omega)$.
+
+\subsection*{Restriction to Discrete Random Variables}
+
+Until further notice, attention is restricted to discrete random variables, i.e., random variables that take values in a set that is finite or countably infinite.
+
+Although $X$ maps to $\mathbb{R}$, the actual set of values
+\[
+\{X(\omega) : \omega \in \Omega\}
+\]
+forms a discrete subset of $\mathbb{R}$.
+
+\subsection*{Visualization}
+
+Sample points in $\Omega$ are mapped by $X$ onto discrete points on the real line.
+
+Multiple sample points may map to the same real value.
+
+\subsection{Distribution of a Discrete Random Variable}
+
+The distribution of a discrete random variable can be visualized using a bar diagram.
+
+The x-axis represents the possible values of the random variable.
+
+The height of the bar at value $a$ equals:
+\[
+\Pr[X = a]
+\]
+
+Each probability is computed by finding the probability of the corresponding event in the sample space.
+
+\section{Types of Random Variables}
+
+\subsection{Discrete Random Variables}
+
+\textbf{Characteristics:}
+\begin{itemize}
+\item Countable support
+\item Probability Mass Function (PMF)
+\item Probabilities assigned to single values
+\item Each possible value has strictly positive probability
+\end{itemize}
+
+\subsection{Continuous Random Variables}
+
+\textbf{Characteristics:}
+\begin{itemize}
+\item Uncountable support
+\item Probability Density Function (PDF)
+\item Probabilities assigned to intervals
+\item Each individual value has zero probability
+\end{itemize}
+
+\section{Example 1: Tossing 3 Fair Coins}
+
+\subsection*{Experiment Description}
+
+An experiment consists of tossing 3 fair coins.
+
+Let:
+\[
+Y = \text{number of heads observed}
+\]
+
+\subsection*{Possible Values of $Y$}
+
+\[
+Y \in \{0,1,2,3\}
+\]
+
+\subsection*{Probability Calculations}
+
+\[
+P(Y = 0) = P(t,t,t) = \frac{1}{8}
+\]
+
+\[
+P(Y = 1) = P(t,t,h) + P(t,h,t) + P(h,t,t) = \frac{3}{8}
+\]
+
+\[
+P(Y = 2) = P(h,h,t) + P(h,t,h) + P(t,h,h) = \frac{3}{8}
+\]
+
+\[
+P(Y = 3) = P(h,h,h) = \frac{1}{8}
+\]
+
+\subsection*{Resulting Distribution}
+
+\[
+P(Y=0)=\frac{1}{8},\quad
+P(Y=1)=\frac{3}{8},\quad
+P(Y=2)=\frac{3}{8},\quad
+P(Y=3)=\frac{1}{8}
+\]
+
+\subsection*{Normalization Condition}
+
+Since $Y$ must take exactly one of the values $0,1,2,3$:
+\[
+1 = P\left( \bigcup_{i=0}^{3} \{Y=i\} \right)
+= \sum_{i=0}^{3} P(Y=i)
+\]
+
+\section{Probability Mass Function (PMF)}
+
+\subsection{Definition}
+
+A random variable that can take on at most a countable number of possible values is called discrete.
+
+Let $X$ be a discrete random variable with range:
+\[
+R_X = x_1, x_2, x_3, \ldots
+\]
+(where the range may be finite or countably infinite).
+
+Define:
+\[
+P_X(x_k) = P(X = x_k), \quad k=1,2,3,\ldots
+\]
+
+This function $P_X(\cdot)$ is called the Probability Mass Function (PMF) of $X$.
+
+\subsection{PMF Normalization Property}
+
+Since $X$ must take one of the values $x_k$:
+\[
+\sum_{k=1}^{\infty} P_X(x_k) = 1
+\]
+
+\section{PMF – Worked Example}
+
+\subsection*{Given}
+
+The PMF of a random variable $X$ is:
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i=0,1,2,\ldots
+\]
+where $\lambda > 0$.
+
+Find:
+\begin{enumerate}
+\item $P(X=0)$
+\item $P(X>2)$
+\end{enumerate}
+
+\subsection*{Step 1: Find Constant $c$}
+
+Using normalization:
+\[
+\sum_{i=0}^{\infty} p(i) = 1
+\]
+
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+
+Using:
+\[
+e^{\lambda} = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!}
+\]
+
+\[
+ce^{\lambda} = 1 \Rightarrow c = e^{-\lambda}
+\]
+
+\subsection*{Step 2: Compute $P(X=0)$}
+
+\[
+P(X=0) = e^{-\lambda}\frac{\lambda^0}{0!} = e^{-\lambda}
+\]
+
+\subsection*{Step 3: Compute $P(X>2)$}
+
+\[
+P(X>2) = 1 - P(X \le 2)
+\]
+
+\[
+= 1 - [P(X=0) + P(X=1) + P(X=2)]
+\]
+
+\[
+= 1 - \left( e^{-\lambda} + \lambda e^{-\lambda} + \frac{\lambda^2}{2} e^{-\lambda} \right)
+\]
+
+\section{Bayes’ Theorem (Recap)}
+
+\subsection{Conditional Probability Identity}
+
+\[
+\Pr(A \mid B) = \Pr(B \mid A)\Pr(A)
+\]
+
+\subsection{Bayes Formula (Proposition 3.1)}
+
+\[
+\Pr(B_i \mid A) =
+\frac{\Pr(A \mid B_i)\Pr(B_i)}
+{\sum_{j=1}^{n} \Pr(A \mid B_j)\Pr(B_j)}
+\]
+
+\subsection{Terminology}
+
+\[
+\Pr(B_i): \text{a priori probability}
+\]
+
+\[
+\Pr(B_i \mid A): \text{posterior probability}
+\]
+
+\section{Bayes’ Theorem – Example: Auditorium with 30 Rows}
+
+\subsection*{Problem Description}
+
+Auditorium has 30 rows.
+
+Row 1 has 11 seats, Row 2 has 12 seats, $\ldots$, Row 30 has 40 seats.
+
+A door prize is awarded by:
+\begin{enumerate}
+\item Randomly selecting a row (each row equally likely)
+\item Randomly selecting a seat within that row (each seat equally likely)
+\end{enumerate}
+
+\subsection*{Tasks}
+
+\begin{enumerate}
+\item Compute the probability that Seat 15 was selected given Row 20 was selected.
+\item Compute the probability that Row 20 was selected given Seat 15 was selected.
+\end{enumerate}
+
+\subsection*{Step 1: Probability of Selecting Seat 15 Given Row 20}
+
+Since Row 20 has 30 seats:
+\[
+P(S_{15} \mid R_{20}) = \frac{1}{30}
+\]
+
+\subsection*{Step 2: Compute $P(S_{15})$}
+
+Using total probability:
+\[
+P(S_{15}) = \sum_{k=15}^{30} P(S_{15} \mid R_k)P(R_k)
+\]
+
+Each row is equally likely:
+\[
+P(R_k) = \frac{1}{30}
+\]
+
+\[
+P(S_{15}) = \sum_{k=15}^{30} \frac{1}{k+10} \cdot \frac{1}{30}
+\approx 0.0342
+\]
+
+\subsection*{Step 3: Probability Row 20 Given Seat 15}
+
+Using Bayes’ formula:
+\[
+P(R_{20} \mid S_{15}) =
+\frac{P(S_{15} \mid R_{20})P(R_{20})}{P(S_{15})}
+\]
+
+\[
+= \frac{\frac{1}{30}\cdot \frac{1}{30}}{0.0342}
+\approx 0.0325
+\]
+
+\end{document}
+
