@@ -1,0 +1,476 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{enumitem}
+\geometry{margin=1in}
+\setstretch{1.15}
+
+\begin{document}
+
+\section*{CSE400 – Lecture 6 Scribe}
+
+\subsection*{Discrete Random Variables, PMF, Bayes’ Theorem \& Standard Discrete Distributions}
+
+\hrule
+\vspace{0.4cm}
+
+\section{Random Variables – Motivation and Definition}
+
+\subsection*{Step 1: Start from the sample space}
+
+Let:
+\begin{itemize}
+    \item \( \Omega \) = sample space (set of all possible outcomes of an experiment)
+    \item A \textbf{random variable} is a function:
+\end{itemize}
+
+\[
+X : \Omega \rightarrow \mathbb{R}
+\]
+
+This means:
+
+\[
+\Rightarrow \text{Each outcome } \omega \in \Omega \text{ is mapped to a real number } X(\omega)
+\]
+
+\subsection*{Step 2: Restriction to discrete random variables}
+
+In this lecture:
+\begin{itemize}
+    \item We focus on \textbf{discrete random variables}
+\end{itemize}
+
+This means:
+
+\begin{itemize}
+    \item The set of values taken by \( X \)
+\end{itemize}
+
+\[
+\{ X(\omega) : \omega \in \Omega \}
+\]
+
+is:
+\begin{itemize}
+    \item finite OR
+    \item countably infinite
+\end{itemize}
+
+So even though \( X \) maps into real numbers, only \textbf{discrete points} occur.
+
+\subsection*{Step 3: Distribution visualization (PMF bars)}
+
+For a discrete RV:
+\begin{itemize}
+    \item x-axis → possible values of the RV
+    \item bar height at value \( a \) → \( P(X = a) \)
+\end{itemize}
+
+Each probability comes from the probability of the corresponding event in the sample space.
+
+\section{Discrete vs Continuous (conceptual distinction from slides)}
+
+\subsection*{Discrete RV:}
+\begin{itemize}
+    \item Countable support
+    \item Uses \textbf{Probability Mass Function (PMF)}
+    \item Probabilities assigned to single values
+    \item Each value has positive probability
+\end{itemize}
+
+\subsection*{Continuous RV:}
+\begin{itemize}
+    \item Uncountable support
+    \item Uses \textbf{Probability Density Function (PDF)}
+    \item Probabilities assigned to intervals
+    \item Each exact value has probability zero
+\end{itemize}
+
+(Only discrete RVs are used in this lecture’s worked material.)
+
+\section{Example: Tossing 3 Fair Coins}
+
+\subsection*{Step 1: Define experiment}
+
+Toss 3 fair coins.
+
+Each outcome equally likely.
+
+Let:
+\[
+Y = \text{number of heads}
+\]
+
+Possible values:
+\[
+Y \in \{0,1,2,3\}
+\]
+
+\subsection*{Step 2: List outcomes by value of Y}
+
+\subsubsection*{\(Y=0\)}
+
+Only outcome:
+\[
+(t,t,t)
+\]
+
+So:
+\[
+P(Y=0)=\frac{1}{8}
+\]
+
+\subsubsection*{\(Y=1\)}
+
+Outcomes:
+\[
+(t,t,h), (t,h,t), (h,t,t)
+\]
+
+Total = 3 outcomes
+
+\[
+P(Y=1)=\frac{3}{8}
+\]
+
+\subsubsection*{\(Y=2\)}
+
+Outcomes:
+\[
+(t,h,h), (h,t,h), (h,h,t)
+\]
+
+Total = 3 outcomes
+
+\[
+P(Y=2)=\frac{3}{8}
+\]
+
+\subsubsection*{\(Y=3\)}
+
+Outcome:
+\[
+(h,h,h)
+\]
+
+\[
+P(Y=3)=\frac{1}{8}
+\]
+
+\subsection*{Step 3: Probability must sum to 1}
+
+\[
+\sum_{i=0}^{3} P(Y=i) = \frac{1}{8}+\frac{3}{8}+\frac{3}{8}+\frac{1}{8}=1
+\]
+
+✔ Valid PMF
+
+\section{Probability Mass Function (PMF) — Formal Definition}
+
+\subsection*{Step 1: Discrete RV}
+
+A random variable is \textbf{discrete} if it takes at most countably many values.
+
+Let possible values:
+\[
+R_X = \{x_1, x_2, x_3, \dots\}
+\]
+
+\subsection*{Step 2: Define PMF}
+
+\[
+P_X(x_k) = P(X = x_k)
+\]
+
+for \(k=1,2,3,\dots\)
+
+This function is the \textbf{Probability Mass Function (PMF)}.
+
+\subsection*{Step 3: Required property}
+
+Since \(X\) must take one of these values:
+\[
+\sum_{k} P_X(x_k) = 1
+\]
+
+\section{PMF Example Using Exponential Series}
+
+Given:
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i=0,1,2,\dots
+\]
+
+\subsection*{Step 1: Use total probability = 1}
+
+\[
+\sum_{i=0}^{\infty} p(i) = c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+
+\subsection*{Step 2: Recognize series}
+
+From slides:
+\[
+e^\lambda = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!}
+\]
+
+So:
+\[
+c e^\lambda = 1 \Rightarrow c = e^{-\lambda}
+\]
+
+\subsection*{Step 3: Find probabilities}
+
+\[
+P(X=0)= e^{-\lambda}
+\]
+
+\[
+P(X>2)=1 - [P(X=0)+P(X=1)+P(X=2)]
+\]
+
+\section{Bayes’ Theorem (from recap)}
+
+\subsection*{Step 1: Start from joint probability}
+
+\[
+P(A,B_i)=P(B_i|A)P(A)
+\]
+
+\subsection*{Step 2: Solve for conditional probability}
+
+\[
+P(B_i|A)=\frac{P(A|B_i)P(B_i)}{\sum_j P(A|B_j)P(B_j)}
+\]
+
+\subsection*{Step 3: Interpretation}
+
+\begin{itemize}
+    \item \(P(B_i)\) = prior probability
+    \item \(P(B_i|A)\) = posterior probability (after observing A)
+\end{itemize}
+
+\section{Bayes Example — Auditorium}
+
+Given:
+\begin{itemize}
+    \item 30 rows
+    \item Row 1 has 11 seats, Row 2 has 12 seats, … Row 30 has 40 seats
+\end{itemize}
+
+Procedure:
+\begin{enumerate}
+    \item Randomly select a row (each with probability \(1/30\))
+    \item Randomly select a seat within that row
+\end{enumerate}
+
+\subsection*{(a) Probability Seat 15 given Row 20}
+
+Row 20 has 30 seats.
+
+Each seat equally likely:
+\[
+P(\text{Seat 15} | \text{Row 20}) = \frac{1}{30}
+\]
+
+\subsection*{(b) Probability Row 20 given Seat 15}
+
+Use Bayes:
+\[
+P(R_{20} | S_{15}) = \frac{P(S_{15}|R_{20})P(R_{20})}{P(S_{15})}
+\]
+
+Where:
+\begin{itemize}
+    \item \(P(R_{20}) = 1/30\)
+    \item \(P(S_{15}|R_{20})=1/30\)
+    \item \(P(S_{15})=\sum_{k=15}^{30} \frac{1}{30}\cdot\frac{1}{(k+10)}\)
+\end{itemize}
+
+(from rows that actually contain seat 15)
+
+\section{Independent Events}
+
+\subsection*{Definition (from slides)}
+
+Two events A and B are independent if:
+\[
+P(A|B)=P(A), \quad P(B|A)=P(B)
+\]
+
+which implies:
+\[
+P(A,B)=P(A)P(B)
+\]
+
+\subsection*{For three events:}
+
+A, B, C are mutually independent if:
+\[
+P(A,B)=P(A)P(B)
+\]
+\[
+P(A,C)=P(A)P(C)
+\]
+\[
+P(B,C)=P(B)P(C)
+\]
+\[
+P(A,B,C)=P(A)P(B)P(C)
+\]
+
+\section{Bernoulli Random Variable}
+
+\subsection*{Step 1: Define experiment}
+
+Outcome = Success or Failure
+
+Define RV:
+\[
+X=1 \text{ if success}, \quad X=0 \text{ if failure}
+\]
+
+\subsection*{Step 2: PMF}
+
+\[
+P(X=1)=p
+\]
+
+\[
+P(X=0)=1-p
+\]
+
+where \(0<p<1\)
+
+\subsection*{Applications (from slides):}
+
+\begin{itemize}
+    \item single coin toss
+    \item spam/not spam
+    \item classification outcomes
+\end{itemize}
+
+\section{Binomial Random Variable}
+
+\subsection*{Step 1: Experiment}
+
+\begin{itemize}
+    \item n independent trials
+    \item each success probability = p
+\end{itemize}
+
+\subsection*{Step 2: Define RV}
+
+\[
+X = \text{number of successes in n trials}
+\]
+
+Notation:
+\[
+X \sim B(n,p)
+\]
+
+\subsection*{Step 3: PMF}
+
+\[
+P(X=i)=\binom{n}{i} p^i (1-p)^{n-i}, \quad i=0,1,\dots,n
+\]
+
+Reason:
+\begin{itemize}
+    \item \(\binom{n}{i}\) ways to choose i successes
+    \item \(p^i\) probability of successes
+    \item \((1-p)^{n-i}\) probability of failures
+\end{itemize}
+
+\section{Geometric Random Variable}
+
+\subsection*{Step 1: Experiment}
+
+Repeated independent trials until first success  
+Each trial success probability = p
+
+\subsection*{Step 2: Define RV}
+
+\[
+X = \text{number of trials until first success}
+\]
+
+\subsection*{Step 3: PMF}
+
+To get success on trial n:
+\begin{itemize}
+    \item first n−1 must be failures → \((1-p)^{n-1}\)
+    \item nth must be success → \(p\)
+\end{itemize}
+
+So:
+\[
+P(X=n)=(1-p)^{n-1}p
+\]
+
+\subsection*{Example (urn)}
+
+With replacement:
+\[
+p=\frac{M}{M+N}
+\]
+
+\[
+P(X=n)=\left(\frac{N}{M+N}\right)^{n-1}\frac{M}{M+N}
+\]
+
+\section{Poisson Random Variable}
+
+\subsection*{Step 1: Values}
+
+\[
+X=0,1,2,\dots
+\]
+
+Parameter:
+\[
+\lambda>0
+\]
+
+\subsection*{Step 2: PMF}
+
+\[
+P(X=i)=e^{-\lambda}\frac{\lambda^i}{i!}
+\]
+
+\subsection*{Step 3: Validity}
+
+\[
+\sum_{i=0}^{\infty} P(X=i)= e^{-\lambda}\sum_{i=0}^{\infty}\frac{\lambda^i}{i!}=e^{-\lambda}e^{\lambda}=1
+\]
+
+✔ Proper PMF
+
+\subsection*{Note from slides:}
+
+Poisson approximates Binomial when:
+\begin{itemize}
+    \item n large
+    \item p small
+    \item np moderate
+\end{itemize}
+
+\section*{✅ Final Logical Flow for Revision}
+
+\begin{enumerate}
+    \item Random variable = mapping outcomes → numbers
+    \item Discrete RV → finite/countable values
+    \item PMF assigns probability to each value
+    \item Probabilities must sum to 1
+    \item Examples reinforce PMF construction
+    \item Bayes’ theorem updates probabilities using evidence
+    \item Independence formalized via conditional probabilities
+    \item Bernoulli → single trial
+    \item Binomial → fixed number of trials
+    \item Geometric → trials until first success
+    \item Poisson → counts of rare events
+\end{enumerate}
+
+\end{document}
