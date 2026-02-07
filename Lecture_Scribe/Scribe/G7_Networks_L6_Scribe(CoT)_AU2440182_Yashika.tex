@@ -1,0 +1,191 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\begin{document}
+\textbf{Yashika Ashar - AU2440182 - Lecture 6 Scribe}
+\section*{Discrete Random Variables, Expectation and Problem Solving}
+
+
+\subsection*{Random Variables: Motivation and Concept}
+
+A random variable is a numerical description of the outcome of a random experiment.
+Formally, a random variable $X$ defined on a sample space $\Omega$ is a function
+\[
+X : \Omega \rightarrow \mathbb{R}
+\]
+which assigns a real number $X(\omega)$ to each outcome $\omega \in \Omega$.
+
+In this lecture, we restrict attention to \emph{discrete random variables}. Although the
+function maps into $\mathbb{R}$, the actual set of values
+\[
+\{X(\omega) : \omega \in \Omega\}
+\]
+is either finite or countably infinite, and hence forms a discrete subset of $\mathbb{R}$.
+
+\subsection*{Distribution of a Discrete Random Variable}
+
+The distribution of a discrete random variable can be visualized using a bar diagram.
+The values that the random variable can take are represented on the horizontal axis.
+For a value $a$, the height of the bar represents the probability
+\[
+\Pr[X = a].
+\]
+Each probability is computed by identifying the corresponding event in the sample space.
+
+\subsection*{Discrete and Continuous Random Variables}
+
+\subsubsection*{Discrete Random Variables}
+
+Discrete random variables have the following characteristics:
+\begin{itemize}
+    \item Countable support
+    \item A probability mass function (PMF)
+    \item Probabilities assigned to individual values
+    \item Each possible value has strictly positive probability
+\end{itemize}
+
+\subsubsection*{Continuous Random Variables}
+
+Continuous random variables have:
+\begin{itemize}
+    \item Uncountable support
+    \item A probability density function (PDF)
+    \item Probabilities assigned to intervals
+    \item Zero probability at any single point
+\end{itemize}
+
+\subsection*{Example: Tossing Three Fair Coins}
+
+Consider an experiment in which three fair coins are tossed. Let $Y$ denote the number
+of heads obtained. Then $Y$ can take the values $0,1,2,3$.
+
+\[
+P(Y=0) = P(t,t,t) = \frac{1}{8}
+\]
+
+\[
+P(Y=1) = P(t,t,h),(t,h,t),(h,t,t) = \frac{3}{8}
+\]
+
+\[
+P(Y=2) = P(t,h,h),(h,t,h),(h,h,t) = \frac{3}{8}
+\]
+
+\[
+P(Y=3) = P(h,h,h) = \frac{1}{8}
+\]
+
+Since $Y$ must take one of these values, we have
+\[
+1 = \Pr\left[\bigcup_{i=0}^{3} \{Y=i\}\right]
+= \sum_{i=0}^{3} P(Y=i).
+\]
+
+\subsection*{Probability Mass Function}
+
+A random variable that can take at most a countable number of values is called a discrete
+random variable. Let $X$ be a discrete random variable with range
+\[
+R_X = \{x_1, x_2, x_3, \ldots\},
+\]
+where the set is finite or countably infinite.
+
+The function
+\[
+P_X(x_k) = P(X = x_k), \quad k = 1,2,3,\ldots
+\]
+is called the probability mass function (PMF) of $X$.
+
+Since $X$ must take one of the values $x_k$, it follows that
+\[
+\sum_{k=1}^{\infty} P_X(x_k) = 1.
+\]
+
+\subsection*{PMF Example}
+
+The probability mass function of a random variable $X$ is given by
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\ldots
+\]
+where $\lambda > 0$.  
+
+Since
+\[
+\sum_{i=0}^{\infty} p(i) = 1,
+\]
+we have
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1.
+\]
+Using
+\[
+e^{\lambda} = \sum_{i=0}^{\infty} \frac{\lambda^i}{i!},
+\]
+it follows that
+\[
+c e^{\lambda} = 1 \quad \Rightarrow \quad c = e^{-\lambda}.
+\]
+
+Thus,
+\[
+P(X=0) = e^{-\lambda}.
+\]
+
+Further,
+\[
+P(X > 2) = 1 - P(X \leq 2)
+\]
+\[
+= 1 - [P(X=0) + P(X=1) + P(X=2)]
+\]
+\[
+= 1 - \left[e^{-\lambda} + \lambda e^{-\lambda} + \frac{\lambda^2}{2} e^{-\lambda}\right].
+\]
+
+\subsection*{Bayes' Theorem}
+
+Using the identity
+\[
+P(A \cap B) = P(B \mid A) P(A),
+\]
+we obtain
+\[
+P(B_i \mid A) =
+\frac{P(A \mid B_i) P(B_i)}
+{\sum_{j=1}^{n} P(A \mid B_j) P(B_j)}.
+\]
+
+This formula is known as Bayes' Theorem.
+
+Here, $P(B_i)$ is the \emph{a priori} probability and
+$P(B_i \mid A)$ is the \emph{posterior} probability.
+
+\subsection*{Bayes' Theorem Example: Auditorium}
+
+An auditorium has 30 rows of seats. Row 1 has 11 seats, Row 2 has 12 seats, and so on,
+up to Row 30 which has 40 seats.
+
+A row is selected uniformly at random, and then a seat is selected uniformly from that row.
+
+The probability that seat 15 is selected given that row 20 is selected is
+\[
+P(S_{15} \mid R_{20}) = \frac{1}{30}.
+\]
+
+The probability that row 20 was selected given that seat 15 was selected is
+\[
+P(R_{20} \mid S_{15}) =
+\frac{P(S_{15} \mid R_{20}) P(R_{20})}{P(S_{15})},
+\]
+where
+\[
+P(R_{20}) = \frac{1}{30}
+\]
+and
+\[
+P(S_{15}) = \sum_{k=15}^{30} P(S_{15} \mid R_k) P(R_k).
+\]
+
+\end{document}
