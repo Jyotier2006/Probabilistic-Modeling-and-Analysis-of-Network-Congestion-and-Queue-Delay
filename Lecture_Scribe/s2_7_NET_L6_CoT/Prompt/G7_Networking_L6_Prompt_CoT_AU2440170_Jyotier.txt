@@ -1,0 +1,7 @@
+Create a lecture scribe using only the provided lecture slides. The scribe must function as reliable reference material for exam preparation and accurately reflect the lecture content.
+
+While preparing the scribe, explain definitions, notation, assumptions, theorem statements or results, proofs, derivations and worked examples in a step-by-step manner following the same sequence of logical reasoning used in the lecture. Ensure that each step is clearly explained so that the reasoning can be followed and relyed during revision.
+
+Restrict the content strictly to the provided lecture slides. Do not add any new explanations, examples, assumptions or reasoning that are not explicitly included in the given materials.
+
+Write in a formal academic style and structure the scribe in a clear and organized way so that the progression of concepts, results, definitions, proofs and examples can be easily understood.
