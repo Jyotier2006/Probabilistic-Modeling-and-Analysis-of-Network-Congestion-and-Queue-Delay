@@ -1,0 +1,149 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\begin{document}
+
+\begin{center}
+School of Engineering and Applied Science (SEAS), Ahmedabad University\\
+CSE 400: Fundamentals of Probability in Computing\\
+Lecture Scribe Notes: Random Variables\\
+Lecture 6  – Discrete Random Variables, Expectation, and Problem Solving\\
+Instructor: Dhaval Patel, PhD\\
+Date: January 22, 2025
+\end{center}
+
+\section*{1. Random Variables (Recap and Concepts)}
+
+\subsection*{1.1 Definition}
+A random variable (RV) on a sample space is a function that assigns a real number to each sample point.  
+\[
+X : \Omega \rightarrow \mathbb{R}, \quad X(\omega), \ \omega \in \Omega
+\]
+
+Discrete Random Variables: We restrict attention to RVs that are discrete. This means they take values in a range that is finite or countably infinite. Even though $X$ maps to $\mathbb{R}$, the set of values $\{X(\omega) : \omega \in \Omega\}$ is a discrete subset of $\mathbb{R}$.
+
+\subsection*{1.2 Probability Mass Function (PMF)}
+For a discrete random variable $X$ with a range (possible values) $R_X = \{x_1, x_2, x_3, \ldots\}$, the Probability Mass Function (PMF) is defined as:
+\[
+P_X(x_k) = P(X = x_k), \quad \text{for } k = 1,2,3,\ldots
+\]
+
+Legitimacy Property: Since $X$ must take on one of the values $x_k$, the sum of probabilities must equal 1:
+\[
+\sum_{k=1}^{\infty} P_X(x_k) = 1
+\]
+
+Visualization: The PMF can be visualized as a bar diagram where the x-axis represents the values the variable can take, and the height of the bar is the probability.
+
+\section*{2. Worked Example: Solving for a Constant in a PMF}
+
+The PMF of a random variable is given by
+\[
+p(i) = c \frac{\lambda^i}{i!}, \quad i = 0,1,2,\ldots
+\]
+where $\lambda$ is a positive value.
+
+\subsection*{Solution}
+For a legitimate PMF,
+\[
+c \sum_{i=0}^{\infty} \frac{\lambda^i}{i!} = 1
+\]
+Using the Taylor series expansion
+\[
+e^x = \sum_{i=0}^{\infty} \frac{x^i}{i!}
+\]
+we obtain
+\[
+c e^{\lambda} = 1 \Rightarrow c = e^{-\lambda}
+\]
+
+\[
+P\{X=0\} = e^{-\lambda}
+\]
+
+\[
+P\{X>2\} = 1 - P\{X \le 2\}
+\]
+\[
+P\{X>2\} = 1 - P\{X=0\} - P\{X=1\} - P\{X=2\}
+\]
+
+\section*{3. Bayes' Theorem and Independent Events}
+
+\subsection*{3.1 Bayes' Theorem}
+\[
+P(B_i|A) = \frac{P(A|B_i)P(B_i)}{\sum_{i=1}^n P(A|B_i)P(B_i)}
+\]
+
+A priori probability: presupposed models.  
+Posteriori probability: calculated after observing events.
+
+\subsection*{3.2 Communication System Example}
+
+\[
+P(0Rx) = P(0Rx|0Tx)P(0Tx) + P(0Rx|1Tx)P(1Tx)
+\]
+\[
+P(0Rx) = (0.95)(0.5) + (0.10)(0.5) = 0.525
+\]
+
+\subsection*{3.3 Independent Events}
+
+Two events $A$ and $B$ are independent if
+\[
+P(A|B) = P(A)
+\]
+\[
+P(A,B) = P(A)P(B)
+\]
+
+\section*{4. Types of Discrete Random Variables}
+
+\subsection*{4.1 Bernoulli Random Variable}
+
+\[
+X =
+\begin{cases}
+1 & \text{Success} \\
+0 & \text{Failure}
+\end{cases}
+\]
+
+\[
+P_X(1) = p, \quad P_X(0) = 1-p
+\]
+
+\subsection*{4.2 Binomial Random Variable}
+
+\[
+X \sim B(n,p)
+\]
+\[
+p(i) = \binom{n}{i} p^i (1-p)^{n-i}, \quad i=0,1,\ldots,n
+\]
+
+\subsection*{4.3 Geometric Random Variable}
+
+\[
+P(X=n) = (1-p)^{n-1}p
+\]
+
+\[
+\sum_{n=1}^{\infty} p(1-p)^{n-1} = 1
+\]
+
+\subsection*{4.4 Poisson Random Variable}
+
+\[
+p(i) = P(X=i) = e^{-\lambda}\frac{\lambda^i}{i!}, \quad i=0,1,2,\ldots
+\]
+
+\[
+\sum_{i=0}^{\infty} e^{-\lambda}\frac{\lambda^i}{i!} = 1
+\]
+
+Poisson random variables can approximate Binomial random variables when $n$ is large and $p$ is small.
+
+\end{document}
