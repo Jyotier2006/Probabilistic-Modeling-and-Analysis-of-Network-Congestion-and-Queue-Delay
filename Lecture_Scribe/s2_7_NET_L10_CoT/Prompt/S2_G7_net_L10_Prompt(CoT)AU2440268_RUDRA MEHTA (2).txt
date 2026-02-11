@@ -1,0 +1,18 @@
+Generate a lecture scribe intended strictly as exam-oriented reference material for preparation for a closed-notes, reading-based examination.
+
+The lecture scribe must be a faithful reconstruction of the lecture. A student relying only on this document should be able to revise the material exactly as it was taught. Use ONLY the provided context (lecture slides/PDF and relevant textbook excerpts). Do not use external knowledge. Do not assume or infer material that is not explicitly present in the context. Do not invent content. While generating the lecture scribe, reason step by step through the material as presented in the lecture. This reasoning should appear within the scribe and must be derived solely from the provided context. 
+
+You must explicitly present, when they appear in the context:
+Definitions and notation 
+Assumptions and conditions 
+Statements of theorems or results 
+Proofs or proof sketches, written step by step 
+Derivations, written step by step 
+Worked examples with all intermediate steps 
+Logical dependencies between concepts ..... 
+Include ONLY material present in the provided context. Do not introduce new examples, explanations, or interpretations. Do not provide alternative solution methods. Do not go beyond the lecture or textbook material. Follow the structure, sequencing, and scope of the lecture strictly. Use clear section and subsection headings. Preserve notation and terminology exactly as used in the lecture. 
+Maintain a formal academic tone suitable for exam revision.
+Do not omit steps or summarize reasoning. 
+
+
+Produce a single, complete, self-contained lecture scribe that prioritizes correctness and faithfulness to the context and can be used directly as exam reference material.
