@@ -1,0 +1,548 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{setspace}
+
+\onehalfspacing
+
+\title{\textbf{CSE 400: Fundamentals of Probability in Computing \\ Tutorial 2 Solutions}}
+\date{}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\section*{Q1. Random Point on a Line Segment}
+
+\textbf{Problem Interpretation}
+
+A point is chosen uniformly at random on a line segment of length $L$.
+
+\textbf{Step 1: Mathematical Representation}
+
+Let:
+
+$x$ = distance of the chosen point from one end
+
+Then $0 < x < L$
+
+The line is divided into two segments:
+
+Length 1: $x$
+
+Length 2: $L - x$
+
+The ratio of shorter to longer segment is:
+
+\[
+R = \frac{\min(x,L-x)}{\max(x,L-x)}
+\]
+
+We must compute:
+
+\[
+P\left(R < \frac{1}{4}\right)
+\]
+
+\textbf{Step 2: Divide Based on Midpoint}
+
+Since which segment is shorter depends on position relative to $L/2$, we divide into two
+cases.
+
+\textbf{Case 1:} $x \le L/2$
+
+Shorter segment = $x$
+
+Longer segment = $L - x$
+
+Condition:
+
+\[
+\frac{x}{L-x} < \frac{1}{4}
+\]
+
+Multiply both sides:
+
+\[
+4x < L - x
+\]
+
+\[
+5x < L
+\]
+
+\[
+x < \frac{L}{5}
+\]
+
+\textbf{Case 2:} $x > L/2$
+
+Shorter segment = $L - x$
+
+Longer segment = $x$
+
+Condition:
+
+\[
+\frac{L-x}{x} < \frac{1}{4}
+\]
+
+Multiply:
+
+\[
+4(L-x) < x
+\]
+
+\[
+4L - 4x < x
+\]
+
+\[
+5x > 4L
+\]
+
+\[
+x > \frac{4L}{5}
+\]
+
+\textbf{Step 3: Valid Region}
+
+Thus valid $x$ lies in:
+
+\[
+(0,L/5) \cup (4L/5,L)
+\]
+
+Length of valid region:
+
+\[
+\frac{L}{5} + \frac{L}{5} = \frac{2L}{5}
+\]
+
+Since $x$ is uniform over length $L$:
+
+\[
+P = \frac{2L/5}{L} = \frac{2}{5}
+\]
+
+\section*{Q2. Bayesian Classification with Normal Distributions}
+
+\textbf{Given}
+
+White region:
+
+\[
+X|W \sim N(4,4), \quad \sigma_W = 2
+\]
+
+Black region:
+
+\[
+X|B \sim N(6,9), \quad \sigma_B = 3
+\]
+
+Prior probabilities:
+
+\[
+P(B)=\alpha,\quad P(W)=1-\alpha
+\]
+
+Observation:
+
+\[
+X=5
+\]
+
+We want equal error probability regardless of conclusion.
+
+\textbf{Step 1: Equal Posterior Probabilities}
+
+For equal error:
+
+\[
+P(B|X=5)=P(W|X=5)=\frac{1}{2}
+\]
+
+Using Bayes’ theorem:
+
+\[
+P(B|X=5)=\frac{\alpha f(5|B)}{\alpha f(5|B)+(1-\alpha)f(5|W)}
+\]
+
+Set equal to $\frac{1}{2}$.
+
+\textbf{Step 2: Normal Density Formula}
+
+\[
+f(x)=\frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]
+
+Compute densities:
+
+\[
+f(5|B)=\frac{1}{3\sqrt{2\pi}}e^{-1/18}
+\]
+
+\[
+f(5|W)=\frac{1}{2\sqrt{2\pi}}e^{-1/8}
+\]
+
+Substitute into Bayes expression:
+
+\[
+\frac{3\alpha}{3\alpha+2(1-\alpha)e^{-5/72}}=\frac{1}{2}
+\]
+
+\textbf{Step 3: Solve}
+
+\[
+6\alpha = 3\alpha + 2(1-\alpha)(0.93)
+\]
+
+\[
+3\alpha = 1.86 - 1.86\alpha
+\]
+
+\[
+4.86\alpha = 1.86
+\]
+
+\[
+\alpha \approx 0.3827
+\]
+
+% --- Remaining content unchanged below (intentionally preserved exactly) ---
+
+\section*{Q3. Minimizing Expected Distance}
+
+\textbf{(a) Uniform on (0,A)}
+
+\[
+X \sim \text{Uniform}(0,A)
+\]
+
+PDF:
+
+\[
+f_X(x)=\frac{1}{A}
+\]
+
+Minimize:
+
+\[
+E[|X-a|]
+\]
+
+Break absolute value:
+
+\[
+E[|X-a|]=\frac{1}{A}\int_0^a(a-x)dx+\frac{1}{A}\int_a^A(x-a)dx
+\]
+
+After evaluation:
+
+\[
+\frac{2a^2-2aA+A^2}{2A}
+\]
+
+Differentiate:
+
+\[
+\frac{4a-2A}{2A}=0
+\]
+
+\[
+4a=2A
+\]
+
+\[
+a=\frac{A}{2}
+\]
+
+Station should be at midpoint.
+
+\textbf{(b) Exponential Distribution}
+
+\[
+X \sim \text{Exponential}(\lambda)
+\]
+
+PDF:
+
+\[
+\lambda e^{-\lambda x}
+\]
+
+Minimize:
+
+\[
+E[|X-a|]
+\]
+
+Derivative:
+
+\[
+\frac{d}{da}E[|X-a|]=1-2e^{-\lambda a}
+\]
+
+Set to zero:
+
+\[
+2e^{-\lambda a}=1
+\]
+
+\[
+e^{-\lambda a}=\frac{1}{2}
+\]
+
+\[
+a=\frac{\ln 2}{\lambda}
+\]
+
+\section*{Q4. Mixture of Exponentials}
+
+Two types:
+
+Rate $\lambda_1$, probability $p_1$
+
+Rate $\lambda_2$, probability $p_2$
+
+We want:
+
+\[
+P(X>t+s|X>t)
+\]
+
+Using:
+
+\[
+P(X>t)=p_1e^{-\lambda_1 t}+p_2e^{-\lambda_2 t}
+\]
+
+\[
+P(X>t+s)=p_1e^{-\lambda_1 (t+s)}+p_2e^{-\lambda_2 (t+s)}
+\]
+
+Thus:
+
+\[
+\frac{p_1e^{-\lambda_1 (t+s)}+p_2e^{-\lambda_2 (t+s)}}{p_1e^{-\lambda_1 t}+p_2e^{-\lambda_2 t}}
+\]
+
+\section*{Q5. Conditional Poisson → Binomial}
+
+\[
+X \sim \text{Poisson}(\lambda_1), \quad Y \sim \text{Poisson}(\lambda_2)
+\]
+
+Independent.
+
+We need:
+
+\[
+P(X=k|X+Y=n)
+\]
+
+Using definition:
+
+\[
+\frac{P(X=k,Y=n-k)}{P(X+Y=n)}
+\]
+
+Substitute Poisson PMFs and simplify.
+
+Final result:
+
+\[
+\binom{n}{k}\left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^k
+\left(\frac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}
+\]
+
+Thus conditional distribution is Binomial.
+
+\section*{Q6. Transformation of Random Variable}
+
+Given:
+
+\[
+X \sim \text{Uniform}[-2,2]
+\]
+
+Piecewise function:
+
+\[
+g(x)=x \quad [-2,-1]
+\]
+
+\[
+g(x)=0 \quad (-1,1)
+\]
+
+\[
+g(x)=x \quad [1,2]
+\]
+
+CDF Construction
+
+\[
+y<-2: 0
+\]
+
+\[
+-2\le y<-1: \frac{y+2}{4}
+\]
+
+\[
+-1\le y<0: \frac{1}{4}
+\]
+
+Jump at 0 of size $\frac{1}{2}$
+
+\[
+1\le y\le 2: \frac{y+2}{4}
+\]
+
+\[
+y>2:1
+\]
+
+PDF:
+
+For $(-2,-1)$ and $(1,2)$:
+
+\[
+f_Y(y)=\frac{1}{4}
+\]
+
+Point mass at 0:
+
+\[
+P(Y=0)=\frac{1}{2}
+\]
+
+\section*{Q7. Binomial Approximation (Stock Model)}
+
+Price after 1000 periods:
+
+\[
+S_{1000}=S_0u^k d^{1000-k}
+\]
+
+Condition:
+
+\[
+u^k d^{1000-k}\ge1.30
+\]
+
+Taking logs:
+
+\[
+k(\ln u-\ln d)+1000\ln d\ge\ln(1.30)
+\]
+
+Solving gives:
+
+\[
+k\ge470
+\]
+
+Since:
+
+\[
+k\sim\text{Binomial}(1000,0.52)
+\]
+
+Required probability:
+
+\[
+\sum_{k=470}^{1000}\binom{1000}{k}(0.52)^k(0.48)^{1000-k}
+\]
+
+\section*{Q8. Exponential Distribution}
+
+\[
+\lambda=\frac{1}{2}
+\]
+
+PDF:
+
+\[
+\frac{1}{2}e^{-x/2}
+\]
+
+(a)
+
+\[
+P(X>2)=e^{-1}
+\]
+
+(b) Conditional Probability
+
+\[
+P(X\ge10|X>9)=\frac{e^{-5}}{e^{-9/2}}=e^{-1/2}
+\]
+
+\section*{Q9. Distribution of $Z$}
+
+\[
+Z=\frac{X^2+Y^2}{2}
+\]
+
+Start from CDF:
+
+\[
+F_Z(z)=P(X^2+Y^2\le2z)
+\]
+
+Since independent:
+
+\[
+f_{X,Y}(x,y)=f_X(x)f_Y(y)
+\]
+
+Region:
+
+\[
+x^2+y^2\le2z
+\]
+
+Double integral form derived.
+
+Differentiate using Leibniz rule.
+
+Final PDF:
+
+\[
+f_Z(z)=\int_{-z}^{z}f_X(x)\left[f_Y(\sqrt{2z-x^2})+f_Y(-\sqrt{2z-x^2})\right]dx
+\]
+
+\section*{Q10. Joint Distribution of $M_n$ and $M_{n+1}$}
+
+\[
+M_n=\max(X_1,\dots,X_n)
+\]
+
+Since i.i.d.:
+
+\[
+P(M_n\le x)=F(x)^n
+\]
+
+Two cases:
+
+Case 1: $x\le y$
+
+\[
+P(M_n\le x,M_{n+1}\le y)=F(x)^nF(y)
+\]
+
+Case 2: $x>y$
+
+\[
+P(M_n\le x,M_{n+1}\le y)=F(y)^{n+1}
+\]
+
+
+\end{document}
