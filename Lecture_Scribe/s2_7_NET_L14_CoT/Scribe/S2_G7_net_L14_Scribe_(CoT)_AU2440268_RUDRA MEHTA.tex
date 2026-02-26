@@ -1,0 +1,616 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+\usepackage{geometry}
+\usepackage{enumitem}
+\geometry{margin=1in}
+
+\title{CSE 400: Fundamentals of Probability in Computing}
+\author{Rudra Mehta \\ AU2440268}
+\date{26/2/26}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\textbf{Lecture 14 – Tutorial 2 Solutions} \\
+(SEAS, Ahmedabad University)
+\end{center}
+
+\vspace{0.5cm}
+
+This scribe reconstructs all solutions exactly in the order and structure presented in the tutorial document. All definitions, assumptions, derivations, and intermediate steps are written explicitly for exam revision.
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q1}
+
+\subsection*{Problem}
+
+A point is chosen at random on a line segment of length $L$. Interpret this statement and find the probability that the ratio of the shorter to the longer segment is less than $\frac{1}{4}$.
+
+\subsection*{Step 1: Mathematical Interpretation}
+
+Let the point be chosen at a distance $x$ from one end.
+
+\[
+0 < x < L
+\]
+
+The two segments formed are:
+
+\begin{itemize}
+\item Length $x$
+\item Length $L - x$
+\end{itemize}
+
+The ratio of the shorter to the longer segment is:
+
+\[
+R = \frac{\min(x, L-x)}{\max(x, L-x)}
+\]
+
+We must compute:
+
+\[
+P\left(R < \frac{1}{4}\right)
+\]
+
+\subsection*{Step 2: Case Analysis Based on Midpoint}
+
+We divide logically at the midpoint $x = \frac{L}{2}$.
+
+\subsubsection*{Case 1: $x \le \frac{L}{2}$}
+
+Shorter segment = $x$
+
+Longer segment = $L-x$
+
+\[
+\frac{x}{L-x} < \frac{1}{4}
+\]
+
+Multiply both sides:
+
+\[
+4x < L - x
+\]
+
+\[
+5x < L
+\]
+
+\[
+x < \frac{L}{5}
+\]
+
+\subsubsection*{Case 2: $x > \frac{L}{2}$}
+
+Shorter segment = $L - x$
+
+Longer segment = $x$
+
+\[
+\frac{L-x}{x} < \frac{1}{4}
+\]
+
+Multiply both sides:
+
+\[
+4L - 4x < x
+\]
+
+\[
+5x > 4L
+\]
+
+\[
+x > \frac{4L}{5}
+\]
+
+\subsection*{Step 3: Valid Region}
+
+\[
+x \in \left(0, \frac{L}{5}\right) \cup \left(\frac{4L}{5}, L\right)
+\]
+
+Total valid length:
+
+\[
+\frac{L}{5} - 0 + \left(L - \frac{4L}{5}\right)
+= \frac{L}{5} + \frac{L}{5}
+= \frac{2L}{5}
+\]
+
+\subsection*{Step 4: Probability}
+
+Since the point is uniformly chosen over length $L$:
+
+\[
+P = \frac{\text{valid region}}{\text{total region}}
+= \frac{2L/5}{L}
+= \frac{2}{5}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q2}
+
+\subsection*{Given}
+
+White region (W):
+\[
+X|W \sim N(4,4), \quad \sigma_1 = 2
+\]
+
+Black region (B):
+\[
+X|B \sim N(6,9), \quad \sigma_2 = 3
+\]
+
+\[
+P(B) = \alpha, \quad P(W) = 1-\alpha
+\]
+
+Observation: $X = 5$
+
+We require equal probability of error regardless of conclusion:
+
+\[
+P(B|X=5) = P(W|X=5) = \frac{1}{2}
+\]
+
+\subsection*{Step 1: Apply Bayes’ Theorem}
+
+\[
+P(B|X=5)
+=
+\frac{\alpha f(5|B)}
+{\alpha f(5|B) + (1-\alpha) f(5|W)}
+= \frac{1}{2}
+\]
+
+\subsection*{Step 2: Normal Density}
+
+\[
+f(x) = \frac{1}{\sigma\sqrt{2\pi}}
+e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\]
+
+Compute densities:
+
+\[
+f(5|B) = \frac{1}{3\sqrt{2\pi}} e^{-1/18}
+\]
+
+\[
+f(5|W) = \frac{1}{2\sqrt{2\pi}} e^{-1/8}
+\]
+
+\subsection*{Step 3: Substitute}
+
+After substitution and simplification:
+
+\[
+\frac{3\alpha}{3\alpha + 2(1-\alpha)e^{-5/72}}
+= \frac{1}{2}
+\]
+
+\subsection*{Step 4: Solve}
+
+\[
+6\alpha = 3\alpha + 2(1-\alpha)e^{-5/72}
+\]
+
+Using $e^{-5/72} \approx 0.93$:
+
+\[
+3\alpha = 1.86 - 1.86\alpha
+\]
+
+\[
+4.86\alpha = 1.86
+\]
+
+\[
+\alpha \approx 0.3827
+\]
+
+\[
+\boxed{\alpha \approx 0.38}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q3}
+
+\subsection*{(a) Uniform Case}
+
+\[
+X \sim \text{Uniform}(0,A)
+\]
+
+\[
+f_X(x) = \frac{1}{A}
+\]
+
+We minimize:
+
+\[
+E[|X-a|]
+=
+\int_0^a (a-x)\frac{1}{A}dx
++
+\int_a^A (x-a)\frac{1}{A}dx
+\]
+
+After evaluation and differentiation:
+
+\[
+\frac{d}{da}
+\left(
+\frac{2a^2 - 2aA + A^2}{2A}
+\right)
+=
+\frac{1}{2A}(4a-2A)
+\]
+
+Set equal to zero:
+
+\[
+4a = 2A
+\]
+
+\[
+a = \frac{A}{2}
+\]
+
+Station at midpoint.
+
+\subsection*{(b) Exponential Case}
+
+\[
+X \sim \text{Exponential}(\lambda)
+\]
+
+\[
+f_X(x) = \lambda e^{-\lambda x}
+\]
+
+\[
+E[|X-a|]
+=
+\int_0^a (a-x)\lambda e^{-\lambda x} dx
++
+\int_a^\infty (x-a)\lambda e^{-\lambda x} dx
+\]
+
+Differentiate:
+
+\[
+\frac{d}{da}E[|X-a|]
+=
+1 - 2e^{-\lambda a}
+\]
+
+Set equal to zero:
+
+\[
+2e^{-\lambda a} = 1
+\]
+
+\[
+e^{-\lambda a} = \frac{1}{2}
+\]
+
+\[
+-\lambda a = -\ln 2
+\]
+
+\[
+a = \frac{\ln 2}{\lambda}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q4}
+
+Let mixture of exponentials.
+
+\[
+P(X>t) = p_1 e^{-\lambda_1 t} + p_2 e^{-\lambda_2 t}
+\]
+
+\[
+P(X>t+s)
+=
+p_1 e^{-\lambda_1(t+s)}
++
+p_2 e^{-\lambda_2(t+s)}
+\]
+
+Conditional probability:
+
+\[
+P(X>t+s|X>t)
+=
+\frac{
+p_1 e^{-\lambda_1(t+s)} + p_2 e^{-\lambda_2(t+s)}
+}{
+p_1 e^{-\lambda_1 t} + p_2 e^{-\lambda_2 t}
+}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q5}
+
+\[
+X \sim \text{Poisson}(\lambda_1)
+\]
+\[
+Y \sim \text{Poisson}(\lambda_2)
+\]
+
+We compute:
+
+\[
+P(X=k|X+Y=n)
+=
+\frac{P(X=k)P(Y=n-k)}{P(X+Y=n)}
+\]
+
+After substitution and simplification:
+
+\[
+\binom{n}{k}
+\left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^k
+\left(\frac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q6}
+
+Given:
+
+\[
+X \sim \text{Uniform}[-2,2]
+\]
+
+Transformation:
+
+\[
+g(x)=
+\begin{cases}
+x, & x\in[-2,-1] \\
+0, & x\in(-1,1) \\
+x, & x\in[1,2]
+\end{cases}
+\]
+
+\subsection*{CDF (Piecewise)}
+
+\begin{itemize}
+\item $y < -2$: \quad $0$
+\item $-2 \le y < -1$: \quad $\dfrac{y+2}{4}$
+\item $-1 \le y < 0$: \quad $\dfrac{1}{4}$
+\item At $y=0$: point mass
+\end{itemize}
+
+\[
+P(Y=0)=\frac{2}{4}=\frac{1}{2}
+\]
+
+\[
+F_Y(0)=\frac{3}{4}
+\]
+
+\begin{itemize}
+\item $0<y<1$: \quad $\dfrac{3}{4}$
+\item $1\le y\le2$: \quad $\dfrac{y+2}{4}$
+\item $y>2$: \quad $1$
+\end{itemize}
+
+\subsection*{PDF}
+
+\[
+f_Y(y)=\frac{1}{4}, \quad y\in(-2,-1)\cup(1,2)
+\]
+
+Point mass:
+
+\[
+P(Y=0)=\frac{1}{2}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q7}
+
+Let number of ups be $k$.
+
+\[
+S_{1000}=S_0 u^k d^{1000-k}
+\]
+
+Condition:
+
+\[
+u^k d^{1000-k} \ge 1.30
+\]
+
+Take logs:
+
+\[
+k(\ln u - \ln d) + 1000\ln d \ge \ln(1.30)
+\]
+
+Using numerical values:
+
+\[
+k \ge 469.4
+\]
+
+\[
+k \ge 470
+\]
+
+Since:
+
+\[
+k \sim \text{Binomial}(1000,0.52)
+\]
+
+\[
+P(k\ge470)
+=
+\sum_{k=470}^{1000}
+\binom{1000}{k}
+(0.52)^k
+(0.48)^{1000-k}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q8}
+
+\[
+X \sim \text{Exponential}\left(\frac{1}{2}\right)
+\]
+
+PDF:
+
+\[
+f(x)=\frac{1}{2}e^{-x/2}
+\]
+
+\subsection*{(a)}
+
+\[
+P(X>2)=e^{-1}\approx0.3679
+\]
+
+\subsection*{(b)}
+
+\[
+P(X\ge10|X>9)
+=
+\frac{e^{-5}}{e^{-9/2}}
+=
+e^{-1/2}
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q9}
+
+Define:
+
+\[
+Z=\sqrt{X^2+Y^2}
+\]
+
+\[
+F_Z(z)=P(X^2+Y^2\le z^2)
+\]
+
+Region:
+
+\[
+x^2+y^2\le z^2
+\]
+
+CDF:
+
+\[
+F_Z(z)
+=
+\int_{-z}^z
+\int_{-\sqrt{z^2-x^2}}^{\sqrt{z^2-x^2}}
+f_X(x)f_Y(y)\,dy\,dx
+\]
+
+Using Leibniz rule:
+
+\[
+\frac{d}{dz}\sqrt{z^2-x^2}
+=
+\frac{z}{\sqrt{z^2-x^2}}
+\]
+
+Final PDF:
+
+\[
+f_Z(z)
+=
+z
+\int_{-z}^z
+\frac{
+f_X(x)
+\left[
+f_Y(\sqrt{z^2-x^2})
++
+f_Y(-\sqrt{z^2-x^2})
+\right]
+}{
+\sqrt{z^2-x^2}
+}
+dx,
+\quad z>0
+\]
+
+\hrule
+\vspace{0.5cm}
+
+\section*{Q10}
+
+Define:
+
+\[
+M_n=\max(X_1,\dots,X_n)
+\]
+
+\[
+P(M_n\le x)=F(x)^n
+\]
+
+\subsection*{Joint CDF}
+
+\subsubsection*{Case 1: $x \le y$}
+
+\[
+P(M_n\le x, M_{n+1}\le y)
+=
+F(x)^n F(y)
+\]
+
+\subsubsection*{Case 2: $x>y$}
+
+\[
+P(M_n\le x, M_{n+1}\le y)
+=
+F(y)^{n+1}
+\]
+
+\subsection*{Final Answer}
+
+\[
+P(M_n\le x, M_{n+1}\le y)
+=
+\begin{cases}
+F(x)^n F(y), & x\le y \\
+F(y)^{n+1}, & x>y
+\end{cases}
+\]
+
+\end{document}
