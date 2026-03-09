@@ -1,0 +1,16 @@
+Dijkstra
+Path: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+Total Queue Delay: 36.0
+Expanded Nodes: 84
+Runtime: 5.77e-05
+
+A*
+Path: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]
+Total Queue Delay: 36.0
+Expanded Nodes: 76
+Runtime: 7.68e-05
+
+Comparison
+Same Delay: True
+Dijkstra Path Length: 19
+A* Path Length: 19
