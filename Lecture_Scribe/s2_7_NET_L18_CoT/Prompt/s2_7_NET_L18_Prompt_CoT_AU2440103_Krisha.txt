@@ -1,0 +1,5 @@
+Generate a lecture scribe suitable for exam preparation. While writing the scribe,
+reason step by step through definitions, assumptions, proofs, and example solutions
+exactly as presented in the provided context. Make the logical flow explicit so that
+a student can follow the reasoning during revision. Do not introduce material that
+is not present in the context.
