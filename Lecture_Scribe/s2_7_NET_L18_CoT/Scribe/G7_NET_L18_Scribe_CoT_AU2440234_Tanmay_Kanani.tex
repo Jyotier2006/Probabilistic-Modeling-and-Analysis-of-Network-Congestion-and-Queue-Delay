@@ -1,0 +1,381 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\begin{document}
+
+\section*{Lecture Scribe}
+
+\textbf{CSE400 – Fundamentals of Probability in Computing} \\
+\textbf{Lecture 18: Marginal PMF, Correlation, Covariance, Joint Gaussian Random Variables} \\
+\textbf{Instructor: Dhaval Patel, PhD} \\
+\textbf{Date: March 12, 2026}
+
+\section{Marginal PMF}
+
+\subsection{Definition}
+
+For discrete random variables $X$ and $Y$, the joint PMF is defined as:
+\[
+p_{XY}(x,y) = P(X = x, Y = y)
+\]
+
+The marginal PMFs are obtained by summing over the other variable:
+\[
+p_X(x) = \sum_y p_{XY}(x,y)
+\]
+\[
+p_Y(y) = \sum_x p_{XY}(x,y)
+\]
+
+\textbf{Key Idea:} The marginal PMF of one variable is obtained by summing the joint PMF over all possible values of the other variable.
+
+\subsection{Marginal PMF from a Joint PMF Table}
+
+From the table representation (page 4):
+
+\begin{itemize}
+    \item Row sums give $p_X(x)$
+    \item Column sums give $p_Y(y)$
+\end{itemize}
+
+Mathematically:
+\[
+p_X(x_i) = \sum_j p_{ij}, \quad p_Y(y_j) = \sum_i p_{ij}
+\]
+
+Also:
+\[
+\sum_i p_X(x_i) = 1, \quad \sum_j p_Y(y_j) = 1
+\]
+
+\subsection{Solved Example}
+
+Given joint PMF (page 5):
+
+\[
+\begin{array}{c|cc}
+ & y=0 & y=1 \\
+\hline
+x=0 & \frac{1}{8} & \frac{1}{4} \\
+x=1 & \frac{3}{8} & \frac{1}{4}
+\end{array}
+\]
+
+\textbf{Step 1: Compute $p_X(x)$}
+
+\[
+p_X(0) = \frac{1}{8} + \frac{1}{4} = \frac{3}{8}
+\]
+\[
+p_X(1) = \frac{3}{8} + \frac{1}{4} = \frac{5}{8}
+\]
+
+\textbf{Step 2: Compute $p_Y(y)$}
+
+\[
+p_Y(0) = \frac{1}{8} + \frac{3}{8} = \frac{1}{2}
+\]
+\[
+p_Y(1) = \frac{1}{4} + \frac{1}{4} = \frac{1}{2}
+\]
+
+Hence:
+\[
+p_X(x) =
+\begin{cases}
+\frac{3}{8}, & x = 0 \\
+\frac{5}{8}, & x = 1
+\end{cases}
+\quad
+p_Y(y) =
+\begin{cases}
+\frac{1}{2}, & y = 0 \\
+\frac{1}{2}, & y = 1
+\end{cases}
+\]
+
+\section{Correlation}
+
+\subsection{Definition}
+
+A basic way to measure joint behavior is through the product moment:
+\[
+R_{XY} = E[XY]
+\]
+
+It represents the average value of the product $XY$.
+
+It is computed about the origin (not about the means).
+
+\subsection{Interpretation}
+
+Depends on the scale of $X$ and $Y$.
+
+Mixes:
+\begin{itemize}
+    \item mean values
+    \item spread
+    \item dependence
+\end{itemize}
+
+If:
+\[
+R_{XY} = 0
+\]
+then variables are orthogonal about the origin.
+
+\textbf{Limitation:} It is not a clean measure of centered dependence.
+
+\textbf{Transition:} To remove the effect of means, variables are centered $\rightarrow$ leads to covariance.
+
+\section{Covariance}
+
+\subsection{Definition and Interpretation}
+
+Covariance is defined as:
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+where:
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+\textbf{Interpretation:}
+\begin{itemize}
+    \item Measures how centered variables vary together
+    \item Indicates direction of joint linear variation:
+    \begin{itemize}
+        \item $> 0$: positive covariance
+        \item $< 0$: negative covariance
+        \item $= 0$: no linear co-variation
+    \end{itemize}
+\end{itemize}
+
+\textbf{Important Note:} Magnitude depends on units and cannot measure strength.
+
+\subsection{Algebraic Form}
+
+Starting with:
+\[
+\text{Cov}(X,Y) = E[(X - \mu_X)(Y - \mu_Y)]
+\]
+
+Expanding:
+\[
+= E[XY - X\mu_Y - \mu_X Y + \mu_X \mu_Y]
+\]
+\[
+= E[XY] - \mu_Y E[X] - \mu_X E[Y] + \mu_X \mu_Y
+\]
+
+Since:
+\[
+\mu_X = E[X], \quad \mu_Y = E[Y]
+\]
+
+We obtain:
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+\subsection{Properties of Covariance}
+
+\begin{itemize}
+    \item \textbf{Symmetry}
+    \[
+    \text{Cov}(X,Y) = \text{Cov}(Y,X)
+    \]
+    
+    \item \textbf{Variance as Special Case}
+    \[
+    \text{Cov}(X,X) = \text{Var}(X)
+    \]
+    
+    \item \textbf{Linearity}
+    \[
+    \text{Cov}(aX + b, cY + d) = ac \, \text{Cov}(X,Y)
+    \]
+    
+    \item \textbf{Independence}
+    \[
+    X \perp Y \Rightarrow \text{Cov}(X,Y) = 0
+    \]
+\end{itemize}
+
+\textbf{Important:} Zero covariance $\Rightarrow$ uncorrelated, but does not imply independence.
+
+\subsection{Example 1}
+
+Given:
+\[
+Y = -2X + 3
+\]
+
+Using:
+\[
+\text{Cov}(X,Y) = E[XY] - E[X]E[Y]
+\]
+
+Compute:
+\[
+XY = X(-2X + 3) = -2X^2 + 3X
+\]
+\[
+E[Y] = E[-2X + 3] = -2E[X] + 3
+\]
+
+Substituting:
+\[
+\text{Cov}(X,Y) = E[-2X^2 + 3X] - E[X](-2E[X] + 3)
+\]
+
+Simplifying:
+\[
+= -2E[X^2] + 3E[X] + 2(E[X])^2 - 3E[X]
+\]
+\[
+= -2E[X^2] + 2(E[X])^2
+\]
+
+Using:
+\[
+\text{Var}(X) = E[X^2] - (E[X])^2
+\]
+
+We obtain:
+\[
+\text{Cov}(X,Y) = -2 \, \text{Var}(X)
+\]
+
+\subsection{Pearson’s Correlation Coefficient}
+
+\[
+\rho_{XY} = \frac{\text{Cov}(X,Y)}{\sqrt{\text{Var}(X)\text{Var}(Y)}} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
+\]
+
+\textbf{Properties:}
+\begin{itemize}
+    \item Measures strength and direction of linear relationship
+    \item Normalized version of covariance
+    \item Unit-free
+    \item Range:
+    \[
+    -1 \le \rho_{XY} \le 1
+    \]
+\end{itemize}
+
+\textbf{Interpretation:}
+\begin{itemize}
+    \item $\rho_{XY} > 0$: positive linear trend
+    \item $\rho_{XY} < 0$: negative linear trend
+    \item $\rho_{XY} = 0$: no linear correlation
+\end{itemize}
+
+\section{Example 2 (Continuous Case)}
+
+Given joint PDF (page 14):
+\[
+f_{XY}(x,y) =
+\begin{cases}
+\frac{xy}{96}, & 0 < x < 4, \; 1 < y < 5 \\
+0, & \text{otherwise}
+\end{cases}
+\]
+
+\textbf{Results from Solution}
+
+\[
+E[X] = \frac{8}{3}
+\]
+\[
+E[Y] = \frac{31}{9}
+\]
+
+Since $X$ and $Y$ are independent:
+\[
+E[XY] = E[X]E[Y] = \frac{248}{27}
+\]
+
+\[
+E[2X + 3Y] = \frac{47}{3}
+\]
+
+\[
+\text{Var}(X) = \frac{8}{9}
+\]
+\[
+\text{Var}(Y) = \frac{92}{81}
+\]
+
+\[
+\text{Cov}(X,Y) = 0
+\]
+\[
+\rho_{XY} = 0
+\]
+
+\section{Jointly Gaussian Random Variables}
+
+\subsection{Definition}
+
+A pair $(X,Y)$ is jointly Gaussian if:
+\begin{itemize}
+    \item The joint density has a bivariate Gaussian form
+    \item The marginals are Gaussian
+\end{itemize}
+
+Applications:
+\begin{itemize}
+    \item Signal processing
+    \item Communication systems
+    \item Modeling continuous noisy measurements
+\end{itemize}
+
+\subsection{Joint Gaussian PDF}
+
+\[
+f_{X,Y}(x,y) =
+\frac{1}{2\pi \sigma_X \sigma_Y \sqrt{1 - \rho^2}}
+\exp\left(
+-\frac{1}{2(1 - \rho^2)}
+\left[
+\left(\frac{x - \mu_X}{\sigma_X}\right)^2
++
+\left(\frac{y - \mu_Y}{\sigma_Y}\right)^2
+-
+2\rho
+\left(\frac{x - \mu_X}{\sigma_X}\right)
+\left(\frac{y - \mu_Y}{\sigma_Y}\right)
+\right]
+\right)
+\]
+
+where:
+\begin{itemize}
+    \item $\mu_X, \mu_Y$: means
+    \item $\sigma_X, \sigma_Y$: standard deviations
+    \item $\rho$: correlation coefficient
+\end{itemize}
+
+\subsection{Interpretation}
+
+Example (page 23):
+
+\begin{itemize}
+    \item $X$: Atmospheric CO$_2$ concentration
+    \item $Y$: Global surface temperature anomaly
+\end{itemize}
+
+Because both variables are influenced by multiple random processes, their joint behavior can be approximated by a joint Gaussian distribution.
+
+If:
+\[
+\rho > 0
+\]
+then higher CO$_2$ levels tend to occur with higher temperatures.
+
+\section*{End of Lecture 18 Scribe}
+
+\end{document}
