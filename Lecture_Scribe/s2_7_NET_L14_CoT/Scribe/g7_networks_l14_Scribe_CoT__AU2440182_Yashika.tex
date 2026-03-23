@@ -1,0 +1,306 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+
+\section*{CSE 400: Fundamentals of Probability in Computing}
+\section*{Tutorial 2}
+
+\subsection*{Q1. Random Point on Line Segment}
+
+A point is chosen uniformly on a line segment of length $L$.
+
+Let the point be at distance $x$, where $0 < x < L$.
+
+Two segments formed: $x$ and $L-x$
+
+Define:
+\[
+R = \frac{\max(x, L-x)}{\min(x, L-x)}
+\]
+
+We require:
+\[
+R < 4
+\]
+
+Case 1:
+\[
+x \le \frac{L}{2}
+\]
+\[
+\frac{L-x}{x} < 4
+\]
+\[
+4x < L - x
+\]
+\[
+5x < L
+\]
+\[
+x < \frac{L}{5}
+\]
+
+Case 2:
+\[
+x > \frac{L}{2}
+\]
+\[
+\frac{x}{L-x} < 4
+\]
+\[
+4L - 4x < x
+\]
+\[
+5x > 4L
+\]
+\[
+x > \frac{4L}{5}
+\]
+
+Valid region:
+\[
+(0, \frac{L}{5}) \cup (\frac{4L}{5}, L)
+\]
+
+Total length:
+\[
+\frac{L}{5} + \frac{L}{5} = \frac{2L}{5}
+\]
+
+Final probability:
+\[
+P = \frac{2L/5}{L} = \frac{2}{5}
+\]
+
+\subsection*{Q2. Bayesian Classification}
+
+\[
+X|W \sim N(4,4), \quad \sigma_1 = 2
+\]
+\[
+X|B \sim N(6,9), \quad \sigma_2 = 3
+\]
+
+\[
+P(B) = \alpha, \quad P(W) = 1-\alpha
+\]
+
+Observation: $X = 5$
+
+\[
+P(B|X=5) = P(W|X=5) = \frac{1}{2}
+\]
+
+\[
+\frac{\alpha f(5|B)}{\alpha f(5|B) + (1-\alpha) f(5|W)} = \frac{1}{2}
+\]
+
+\[
+f(5|B) = \frac{1}{3\sqrt{2\pi}} e^{-1/18}
+\]
+\[
+f(5|W) = \frac{1}{2\sqrt{2\pi}} e^{-1/8}
+\]
+
+\[
+\frac{3\alpha}{3\alpha + 2(1-\alpha)e^{-5/72}} = \frac{1}{2}
+\]
+
+\[
+6\alpha = 3\alpha + 2(1-\alpha)e^{-5/72}
+\]
+
+\[
+3\alpha = 2(1-\alpha)(0.93)
+\]
+
+\[
+3\alpha = 1.86 - 1.86\alpha
+\]
+
+\[
+4.86\alpha = 1.86
+\]
+
+\[
+\alpha \approx 0.3827
+\]
+
+\subsection*{Q3. Optimal Location}
+
+(a) Uniform:
+
+\[
+X \sim Uniform(0,A)
+\]
+
+\[
+E[|X-a|] = \int_0^a (a-x)\frac{1}{A}dx + \int_a^A (x-a)\frac{1}{A}dx
+\]
+
+\[
+\frac{d}{da} = \frac{1}{2A}(4a - 2A)
+\]
+
+\[
+4a = 2A
+\]
+
+\[
+a = \frac{A}{2}
+\]
+
+(b) Exponential:
+
+\[
+X \sim Exponential(\lambda)
+\]
+
+\[
+\frac{d}{da} E[|X-a|] = 1 - 2e^{-\lambda a}
+\]
+
+\[
+1 - 2e^{-\lambda a} = 0
+\]
+
+\[
+e^{-\lambda a} = \frac{1}{2}
+\]
+
+\[
+-\lambda a = \ln\left(\frac{1}{2}\right)
+\]
+
+\[
+a = \frac{\ln 2}{\lambda}
+\]
+
+\subsection*{Q4. Mixed Exponential}
+
+\[
+P(X>t) = p_1 e^{-\lambda_1 t} + p_2 e^{-\lambda_2 t}
+\]
+
+\[
+P(X>t+s) = p_1 e^{-\lambda_1 (t+s)} + p_2 e^{-\lambda_2 (t+s)}
+\]
+
+\[
+P(X>t+s|X>t) = \frac{p_1 e^{-\lambda_1 (t+s)} + p_2 e^{-\lambda_2 (t+s)}}{p_1 e^{-\lambda_1 t} + p_2 e^{-\lambda_2 t}}
+\]
+
+\subsection*{Q5. Poisson}
+
+\[
+X \sim Poisson(\lambda_1), \quad Y \sim Poisson(\lambda_2)
+\]
+
+\[
+P(X=k|X+Y=n) = \frac{P(X=k)P(Y=n-k)}{P(X+Y=n)}
+\]
+
+\[
+= \binom{n}{k} \left(\frac{\lambda_1}{\lambda_1+\lambda_2}\right)^k
+\left(\frac{\lambda_2}{\lambda_1+\lambda_2}\right)^{n-k}
+\]
+
+\subsection*{Q6. Transformation}
+
+\[
+X \sim Uniform[-2,2]
+\]
+
+\[
+f_X(x) = \frac{1}{4}
+\]
+
+Piecewise:
+
+\[
+g(x) =
+\begin{cases}
+x, & [-2,-1] \\
+0, & (-1,1) \\
+x, & [1,2]
+\end{cases}
+\]
+
+\subsection*{Q7. Binomial Model}
+
+\[
+S_{1000} = S_0 u^k d^{1000-k}
+\]
+
+\[
+u^k d^{1000-k} \ge 1.30
+\]
+
+\[
+k \ln u + (1000-k)\ln d \ge \ln(1.30)
+\]
+
+\[
+k \ge 470
+\]
+
+\[
+k \sim Binomial(1000, 0.52)
+\]
+
+\[
+P(k \ge 470) = \sum_{k=470}^{1000} \binom{1000}{k} (0.52)^k (0.48)^{1000-k}
+\]
+
+\subsection*{Q8. Exponential}
+
+\[
+f(x) = \frac{1}{2} e^{-x/2}, \quad x \ge 0
+\]
+
+\[
+P(X>2) = e^{-1}
+\]
+
+\[
+P(X \ge 10 | X>9) = e^{-1/2}
+\]
+
+\subsection*{Q9. Transformation}
+
+\[
+Z = X^2 + Y^2
+\]
+
+\[
+F_Z(z) = P(X^2 + Y^2 \le z)
+\]
+
+\[
+f_{X,Y}(x,y) = f_X(x)f_Y(y)
+\]
+
+\subsection*{Q10. Joint Distribution}
+
+\[
+M_n = \max(X_1,...,X_n)
+\]
+
+\[
+M_{n+1} = \max(M_n, X_{n+1})
+\]
+
+\[
+P(M_n \le x) = F(x)^n
+\]
+
+\[
+P(M_n \le x, M_{n+1} \le y) =
+\begin{cases}
+F(x)^n F(y), & x \le y \\
+F(y)^{n+1}, & x > y
+\end{cases}
+\]
+
+\end{document}
