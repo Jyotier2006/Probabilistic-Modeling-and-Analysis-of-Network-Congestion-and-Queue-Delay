@@ -1,0 +1,254 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amssymb}
+
+\title{CSE 400 -- Lecture 21 \& 22 Scribe\\
+Inequalities and Tail Bounds}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Tails}
+
+\textbf{Definition (Tail of a Random Variable)}\\
+The tail of a random variable $X$ is:
+\[
+P(X > x)
+\]
+
+\textbf{Why do we care about tails?}
+\begin{itemize}
+    \item Jobs delayed more than 24 hours
+    \item Packets dropped due to full buffer
+\end{itemize}
+
+\textbf{Key Idea}
+\begin{itemize}
+    \item Mean $\rightarrow$ average behavior (easy)
+    \item Tail $\rightarrow$ rare extreme events (hard)
+\end{itemize}
+
+\textbf{Why are tails hard to compute?}\\
+Requires summing many small probabilities
+
+\section{Tail Examples}
+
+\subsection{Example 1: Jobs distributed across servers}
+
+\textbf{Question}\\
+Suppose you’re distributing $n$ jobs among $n$ servers at random.\\
+What is the probability that a particular server gets $\geq k$ jobs?
+
+\textbf{Intuition}
+\begin{itemize}
+    \item Jobs are assigned randomly
+    \item Most servers get few jobs
+    \item Occasionally, one server gets many jobs
+\end{itemize}
+
+$\rightarrow$ This is a tail event (rare overload)
+
+\textbf{Model}
+\[
+X \sim \text{Binomial}(n, p)
+\]
+
+\textbf{Exact Probability}
+\[
+P(X \geq k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+\subsection{Example 2: Poisson arrivals}
+
+\textbf{Question}\\
+Jobs arrive to a datacenter according to a Poisson process with rate $\lambda$ jobs/hour.\\
+What is the probability that $\geq k$ jobs arrive during the first hour?
+
+\textbf{Intuition}
+\begin{itemize}
+    \item Jobs arrive randomly over time
+    \item Most hours have moderate arrivals
+    \item Sometimes, we see a burst of arrivals
+\end{itemize}
+
+$\rightarrow$ This is a tail event (sudden spike in load)
+
+\textbf{Model}
+\[
+X \sim \text{Poisson}(\lambda)
+\]
+
+\textbf{Exact Probability}
+\[
+P(X \geq k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+
+\section{Why Tail Bounds?}
+
+\textbf{Observation}\\
+Exact tail probabilities are often hard to compute
+
+\textbf{Exact Computation}
+\[
+P(X \geq k) = \sum_{i=k}^{\infty} e^{-\lambda} \frac{\lambda^i}{i!}
+\]
+\[
+P(X \geq k) = \sum_{i=k}^{n} \binom{n}{i} p^i (1-p)^{n-i}
+\]
+
+$\rightarrow$ These are complicated, long sums
+
+\textbf{Idea}
+\begin{itemize}
+    \item Find an upper bound
+    \item Easier to compute
+    \item Still gives a guarantee
+\end{itemize}
+
+\textbf{Goal}
+\[
+\text{Exact: } P(X \geq k) = ?
+\]
+\[
+\text{Bound: } P(X \geq k) \leq \text{something simple}
+\]
+
+\textbf{Key Idea}\\
+Approximate safely instead of computing exactly
+
+\section{Running Example}
+
+We will:
+\begin{itemize}
+    \item Develop progressively better (tighter) tail bounds
+    \item Test all bounds on the same example
+\end{itemize}
+
+\textbf{Experiment}\\
+Flip a fair coin $n$ times
+
+\textbf{Random Variable}
+\[
+X = \text{number of heads}
+\]
+\[
+X \sim \text{Binomial}\left(n, \frac{1}{2}\right)
+\]
+
+\textbf{Mean}
+\[
+E[X] = \frac{n}{2}
+\]
+
+\textbf{Question}
+\[
+P\left(X \geq \frac{3}{4}n\right)
+\]
+
+$\rightarrow$ Tail region: unusually many heads
+
+\section{Markov’s Inequality}
+
+\textbf{Key Idea}
+\begin{itemize}
+    \item Uses only the mean
+    \item Large values are rare
+\end{itemize}
+
+\textbf{Example Idea}\\
+Average = 10 $\rightarrow$ few values can be 100+
+
+\textbf{Markov Inequality (Statement)}\\
+For a non-negative random variable $X$:
+\[
+P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+\textbf{Interpretation}
+\begin{itemize}
+    \item Probability that $X$ is large
+    \item Controlled only by its mean
+\end{itemize}
+
+\textbf{Proof (Step-by-step)}
+
+We start with:
+\[
+E[X] = \sum_x x \cdot P(X = x)
+\]
+
+Split into two parts:
+\[
+x < a \quad \text{and} \quad x \geq a
+\]
+
+\[
+E[X] \geq \sum_{x \geq a} x \cdot P(X = x)
+\]
+
+Since $x \geq a$:
+\[
+E[X] \geq \sum_{x \geq a} a \cdot P(X = x)
+\]
+
+\[
+E[X] \geq a \sum_{x \geq a} P(X = x)
+\]
+
+\[
+E[X] \geq a \cdot P(X \geq a)
+\]
+
+Divide both sides by $a$:
+\[
+P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+\section{Application to Running Example}
+
+\[
+X \sim \text{Binomial}\left(n, \frac{1}{2}\right), \quad E[X] = \frac{n}{2}
+\]
+
+We want:
+\[
+P\left(X \geq \frac{3}{4}n\right)
+\]
+
+Apply Markov:
+\[
+P(X \geq a) \leq \frac{E[X]}{a}
+\]
+
+Substitute:
+\[
+P\left(X \geq \frac{3}{4}n\right) \leq \frac{n/2}{3n/4}
+\]
+
+\[
+= \frac{1}{2} \cdot \frac{4}{3} = \frac{2}{3}
+\]
+
+\textbf{Result}
+\[
+P\left(X \geq \frac{3}{4}n\right) \leq \frac{2}{3}
+\]
+
+\textbf{Observation}
+\begin{itemize}
+    \item Very loose bound
+    \item Only uses mean
+    \item Does not use variance or distribution shape
+\end{itemize}
+
+\section*{Next Topics}
+
+\begin{itemize}
+    \item Chebyshev’s Inequality
+    \item Chernoff Bounds (Poisson tail)
+    \item Jensen’s Inequality
+    \item Convex functions
+\end{itemize}
+
+\end{document}
